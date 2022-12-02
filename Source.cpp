@@ -6,6 +6,9 @@ const int row = 9, column = 9;
 int r_num, c_num, num;
 //Generating 9x9 null grid
 int arr[row][column] = {0};
+int arr_r[9];
+int arr_c[9];
+int arr_s[3][3] = {0};
 
 //Function to initialize the game with some random numbers
 void rand_num(int arr[9][9]) {
@@ -29,54 +32,81 @@ void display_board(int arr[9][9]) {
 
 //Function to check the elements of row to avoid repition
 void check_row(int r_num, int num) {
-   int arr_1[row];
-   for (int i = 0; i < row; i++) {
-      arr_1[i] = arr[r_num][i];
+   for (int i = 0; i < 9; i++) {
+      arr_r[i] = arr[r_num-1][i];
    }
    for (int i = 0; i < row; i++) {
-         if (arr_1[i] == num) {
+         if (arr_r[i] == num) {
             cout << "This number already exsist in this row, Please Enter Again!" << endl;
+            break;
+         }
+         else if (arr_r[i] != num && num >= 0 && num < 10) {
+            arr[r_num-1][c_num-1] = num;
+            display_board(arr);
+            cout << endl;
+            break;
          }
       }
-   
    }
 
+//Function to check the elements of column to avoid repition
+void check_column(int c_num, int num) {
+   for (int i = 0; i < 9; i++) {
+      arr_c[i] = arr[r_num-1][i];
+   }
+   for (int i = 0; i < column; i++) {
+         if (arr_c[i] == num) {
+            cout << "This number already exsist in this column, Please Enter Again!" << endl;
+            display_board(arr);
+            break;
+         }
+         else if (arr_c[i] != num && num >= 0 && num < 10) {
+            arr[r_num-1][c_num-1] = num;
+            display_board(arr);
+            cout << endl;
+            break;
+         }
+      }
+}
 
 //Function to check if the input number exsists in the row or column
-void check_input(int arr[9][9],int num) {
-   for (int i = 0; i < row; i++) {
-         
+void check_matrix(int arr[9][9],int num) {
+   for (int i = 0; i < 3; i++) {
+         for (int j = 0; j < 3; j++) {
+            arr_s[i][j] = arr[i][j];
+         }
       }
    }   
 
-int main()
-{
-   //Displaying the board
-   display_board(arr);
-   cout << endl;
+int main() {
    // Displaying the initialized board
    rand_num(arr);
    display_board(arr);
    cout << endl;
    //Taking input from the user
-   for (int i = 0;;i++) {
+   for (int i = 0 ;; i++) {
       cout << "Enter the row number: ";
       cin >> r_num;
       cout << "Enter the column number: ";
       cin >> c_num;
       cout << "Enter the number: ";
       cin >> num;
+      cout << endl;
+      //Checking the validity of input
       if (num < 0 || row <= 0 || column <= 0) {
          cout << "Invalid Input, Enter Again";
+         cout << endl;
       }
       if (num > 9 || row > 9 || column > 9) {
           cout << "Invalid Input, Enter Again";
+          cout << endl;
       }
       if (!int(num) || !int(row) || !int(column)) {
-         cout << "Invalid Input Try Again and Enter A Number Between (0-9): ";
-         break;
+         cout << "Invalid Input, Enter Again";
+         cout << endl;
       }
-      display_board(arr);
+      //Checking if the number exsist in the input row
       check_row(r_num, num);
+      check_column(c_num, num);
    }
 }
