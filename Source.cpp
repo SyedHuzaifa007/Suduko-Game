@@ -1,6 +1,10 @@
 #include <iostream>
 #include <string.h>
+#include <fstream>
 using namespace std;
+
+ifstream file_read;
+ofstream file_write; 
 
 const int row = 9, column = 9;
 int r_num, c_num, num;
