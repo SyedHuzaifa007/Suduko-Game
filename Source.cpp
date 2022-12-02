@@ -13,7 +13,7 @@ int arr_s[3][3] = {0};
 //Function to initialize the game with some random numbers
 void rand_num(int arr[9][9]) {
    srand(time(0));
-   for (int i = 0; i < 32; i++) {
+   for (int i = 1; i <= 32; i++) {
    int row = (rand() % 9) + 1;
    int col = (rand() % 9) + 1;
    arr[row][col] = (rand() % 9) + 1;
@@ -22,6 +22,7 @@ void rand_num(int arr[9][9]) {
 
 //Function to display the board
 void display_board(int arr[9][9]) {
+   cout << "*******SUDUKO GAME*******" << endl;
    for (int i = 0; i < 9; i++) {
       for (int j = 0; j < 9; j++) {
          cout << arr[i][j] << "  ";
@@ -30,42 +31,49 @@ void display_board(int arr[9][9]) {
    }
 }
 
-//Function to check the elements of row to avoid repition
-void check_row(int r_num, int num) {
+void pop_arr_r(int arr_r[9]) {
    for (int i = 0; i < 9; i++) {
       arr_r[i] = arr[r_num-1][i];
    }
+}
+
+void pop_arr_c(int arr_c[9]) {
+   for (int i = 0; i < 9; i++) {
+      arr_c[i] = arr[c_num-1][i];
+   }
+}
+
+//Function to check the elements of row to avoid repition
+void check_row(int r_num, int num) {
+   pop_arr_r(arr_r);
    for (int i = 0; i < row; i++) {
-         if (arr_r[i] == num) {
-            cout << "This number already exsist in this row, Please Enter Again!" << endl;
-            break;
-         }
-         else if (arr_r[i] != num && num >= 0 && num < 10) {
+         if (arr_r[i] != num && num >= 0 && num < 10) {
             arr[r_num-1][c_num-1] = num;
             display_board(arr);
             cout << endl;
             break;
          }
+         else if (arr_r[i] == num) {
+            cout << "This number already exsist in this row, Please Enter Again!" << endl;
+         }
+         break;
       }
    }
 
 //Function to check the elements of column to avoid repition
 void check_column(int c_num, int num) {
-   for (int i = 0; i < 9; i++) {
-      arr_c[i] = arr[r_num-1][i];
-   }
+   pop_arr_c(arr_c);
    for (int i = 0; i < column; i++) {
-         if (arr_c[i] == num) {
-            cout << "This number already exsist in this column, Please Enter Again!" << endl;
-            display_board(arr);
-            break;
-         }
-         else if (arr_c[i] != num && num >= 0 && num < 10) {
+         if (arr_c[i] != num && num >= 0 && num < 10) {
             arr[r_num-1][c_num-1] = num;
             display_board(arr);
             cout << endl;
             break;
          }
+         else if (arr_c[i] == num) {
+            cout << "This number already exsist in this column, Please Enter Again!" << endl;
+         }
+         break;
       }
 }
 
